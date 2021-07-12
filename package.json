@@ -1,0 +1,38 @@
+{
+  "name": "gatsby-plugin-extended-date",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin",
+    "dateformat"
+  ],
+  "homepage": "https://github.com/el7cosmos/gatsby-plugin-extended-date#readme",
+  "bugs": {
+    "url": "https://github.com/el7cosmos/gatsby-plugin-extended-date/issues"
+  },
+  "license": "MIT",
+  "author": "el7cosmos <el@elabee.me>",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/el7cosmos/gatsby-plugin-extended-date.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "common-tags": "^1.8.0",
+    "moment": "^2.29.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.30.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.2"
+  },
+  "peerDependencies": {
+    "gatsby": "^3"
+  }
+}

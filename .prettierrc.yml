@@ -1,0 +1,4 @@
+arrowParens: avoid
+endOfLine: lf
+printWidth: 100
+semi: false
