@@ -1,16 +1,18 @@
-const { getDateResolver } = require(`gatsby/dist/schema/types/date`)
-const { builtInFieldExtensions } = require(`gatsby/dist/schema/extensions`)
 const { oneLine } = require(`common-tags`)
 const moment = require(`moment`)
 
 /**
  * @typedef {import('gatsby').CreateSchemaCustomizationArgs} CreateSchemaCustomizationArgs
+ * @typedef {import('gatsby').Actions} Actions
+ * @typedef {import('gatsby').Reporter} Reporter
  */
 
 /**
  * @param {CreateSchemaCustomizationArgs} args
+ * @param {Actions} args.actions
+ * @param {Reporter} args.reporter
  */
-exports.createSchemaCustomization = ({ actions }) => {
+exports.createSchemaCustomization = ({ actions, reporter }) => {
   const ISO_8601_FORMAT = [
     `YYYY`,
     `YYYY-MM`,
@@ -93,13 +95,23 @@ exports.createSchemaCustomization = ({ actions }) => {
     description: `Add date formatting options.`,
     args: {
       offset: `Int`,
-      ...builtInFieldExtensions.dateformat.args,
     },
     extend(options, prevFieldConfig) {
-      const dateResolver = getDateResolver(options, prevFieldConfig)
+      const error = new Error(`extendedDateformat must be declared after dateformat extension`)
+
+      const { dateformat } = prevFieldConfig.extensions
+      if (!dateformat) {
+        reporter.panic(error)
+      }
+
+      const keys = Object.keys(prevFieldConfig.extensions)
+      if (keys.indexOf(`dateformat`) > keys.indexOf(`extendedDateformat`)) {
+        reporter.panic(error)
+      }
 
       return {
         args: {
+          ...prevFieldConfig.args,
           offset: {
             type: `Int`,
             description: oneLine`
@@ -108,13 +120,11 @@ exports.createSchemaCustomization = ({ actions }) => {
             `,
             defaultValue: options.offset,
           },
-          ...dateResolver.args,
         },
         async resolve(source, args, context, info) {
-          if (!args.offset) return dateResolver.resolve(source, args, context, info)
+          if (!args.offset) return prevFieldConfig.resolve(source, args, context, info)
 
-          const resolver = prevFieldConfig.resolve || context.defaultFieldResolver
-          const date = await resolver(source, args, context, {
+          const date = await context.defaultFieldResolver(source, args, context, {
             ...info,
             from: options.from || info.from,
             fromNode: options.from ? options.fromNode : info.fromNode,
