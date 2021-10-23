@@ -26,11 +26,11 @@
     "moment": "^2.29.1"
   },
   "devDependencies": {
-    "eslint": "^7.30.0",
+    "eslint": "^8.1.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "prettier": "^2.3.2"
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.4.1"
   },
   "peerDependencies": {
     "gatsby": "^3"
