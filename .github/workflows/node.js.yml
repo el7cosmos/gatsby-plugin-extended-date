@@ -23,7 +23,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: npm
-    - run: npm ci
+        cache-dependency-path: package.json
+    - run: npm install
     - run: |
         npx prettier -c gatsby-node.js
         npx eslint gatsby-node.js
